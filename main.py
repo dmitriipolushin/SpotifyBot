@@ -70,7 +70,8 @@ def send_command_message(message):
 It works automatically, no need to add it anywhere. 
 Simply open any of your chats and type @spotify_inline_bot something in the message field. 
 Then tap on a result to send.
-For example, try typing @spotify_inline_bot Gangnam Style here.'''
+For example, try typing @spotify_inline_bot Gangnam Style here.
+You can search both by track and by artist '''
     bot.reply_to(message, msg)
 
 
