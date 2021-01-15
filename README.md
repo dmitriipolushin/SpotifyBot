@@ -7,7 +7,7 @@ Simply open any of your chats and type @spotify_inline_bot something in the mess
 <img src="images/empty_search.jpg" width="300">
  </p>
 Then tap on a result to send.  
-#### You can search both by track and by artist  
+### You can search both by track and by artist  
 <p align="center">
 <img src="images/by_artist.jpg" width="300">
   </p>
