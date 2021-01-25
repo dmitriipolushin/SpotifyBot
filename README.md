@@ -2,7 +2,7 @@
 ## Inline telegram bot to search and send tracks from Spotify directly in Telegram  
 This bot can help you find and share music from Spotify.
 It works automatically, no need to add it anywhere. 
-Simply open any of your chats and type @spotify_inline_bot something in the message field.  
+Simply open any of your chats and type @spotiSearchBot something in the message field.  
 <p align="center">
 <img src="images/empty_search.jpg" width="300">
  </p>
