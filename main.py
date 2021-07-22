@@ -68,9 +68,9 @@ def send_command_message(message):
     msg = '''
     This bot can help you find and share music on Spotify. 
 It works automatically, no need to add it anywhere. 
-Simply open any of your chats and type @spotify_inline_bot something in the message field. 
+Simply open any of your chats and type @spotiSearchBot something in the message field. 
 Then tap on a result to send.
-For example, try typing @spotify_inline_bot Gangnam Style here.
+For example, try typing @spotiSearchBot Gangnam Style here.
 You can search both by track and by artist '''
     bot.reply_to(message, msg)
 
@@ -97,7 +97,8 @@ def get_iq_articles(query):
         result = []
         cnt = 0
         desc_msg = 'Tap to get link to track'
-        out_msg = 'Listen track on Spotify: {}\nName of track: *{}*\nArtist: *{}*\nLink to artist: {}\nLink to album: {}'
+        # [inline URL](http://www.example.com/)
+        out_msg = '[Listen track on Spotify]({})\nName of the track: *{}*\nArtist: *{}*\n[Link to the artist]({})\n[Link to the album]({})'
         for item in info:
             title = item['artist']['name'] + ' - ' + item['name']
             result.append(
