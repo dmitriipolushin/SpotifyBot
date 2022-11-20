@@ -241,3 +241,4 @@ pip-selfcheck.json
 ### additional ###
 Procfile
 TOKEN.py
+spoti_env/
