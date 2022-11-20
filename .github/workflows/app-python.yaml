@@ -2,6 +2,12 @@ name: Python package
 
 on: [push]
 
+env:
+  URL: ${{ secrets.URL }}
+  TOKEN: ${{ secrets.TOKEN }}
+  CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+
 jobs:
   build:
 
