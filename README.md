@@ -1,4 +1,4 @@
-# SpotifyBot  
+# SpotifyBot 
 
 [![codecov](https://codecov.io/gh/dmitriipolushin/SpotifyBot/branch/master/graph/badge.svg?token=NIZ0S834W2)](https://codecov.io/gh/dmitriipolushin/SpotifyBot)
 

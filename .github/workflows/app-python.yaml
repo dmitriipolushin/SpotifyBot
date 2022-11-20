@@ -32,15 +32,16 @@ jobs:
       - name: Coverage
         run: |
           coverage run -m pytest tests.py
+      - uses: devmasx/coverage-check-action@v1.2.0
+        with:
+          type: simplecov
+          result_path: coverage/.last_run.json
+          min_coverage: 80
+          token: ${{ github.token }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
             token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Check Spelling
-        uses: rojopolis/spellcheck-github-actions@0.23.0
-        with:
-          config_path: .spellcheck.yml
-          task_name: Markdown
       - name: notification
         uses: xinthink/action-telegram@v1.1
         with:
