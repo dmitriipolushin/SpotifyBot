@@ -38,7 +38,7 @@ jobs:
           flake8
       - name: Coverage
         run: |
-          coverage run -m pytest --cov-fail-under=80 tests.py
+          coverage run -m pytest tests.py
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
