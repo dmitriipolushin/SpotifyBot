@@ -23,10 +23,16 @@ jobs:
       - name: Lint with flake8
         run: |
           flake8
-      # - name: Test with pytest
-      #   run: |
-      #     python -m pytest tests.py
+      - name: Coverage
+        run: |
+          coverage run -m pytest tests.py
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
             token: ${{ secrets.CODECOV_TOKEN }}
+      - name: notification
+        uses: xinthink/action-telegram@v1.1
+        with:
+          botToken: ${{ secrets.BOTTOKEN }}
+          chatId: ${{ secrets.CHATID }}
+          jobStatus: ${{ job.status }}

@@ -58,6 +58,7 @@ def get_information(item):
     info['to_listen'] = item['external_urls']['spotify']
     info['id'] = item['id']
     info['name'] = sp.track(info['id'])['name']
+    print(type(info))
     return info
 
 
@@ -145,4 +146,4 @@ def get_iq_articles(query):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5001)))
