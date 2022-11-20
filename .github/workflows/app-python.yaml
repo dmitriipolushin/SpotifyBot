@@ -23,7 +23,6 @@ jobs:
           botToken: ${{ secrets.BOTTOKEN }}
           chatId: ${{ secrets.CHATID }}
           jobStatus: ${{ job.status }}
-          skipSuccess: false
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
