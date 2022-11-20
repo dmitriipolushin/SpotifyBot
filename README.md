@@ -1,4 +1,7 @@
 # SpotifyBot  
+
+[![codecov](https://codecov.io/gh/dmitriipolushin/SpotifyBot/branch/master/graph/badge.svg?token=NIZ0S834W2)](https://codecov.io/gh/dmitriipolushin/SpotifyBot)
+
 ## Inline telegram bot to search and send tracks from Spotify directly in Telegram  
 This bot can help you find and share music from Spotify.
 It works automatically, no need to add it anywhere. 
