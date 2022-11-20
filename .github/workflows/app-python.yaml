@@ -17,12 +17,6 @@ jobs:
         python-version: ["3.9"]
 
     steps:
-      - name: notification
-        uses: xinthink/action-telegram@v1.1
-        with:
-          botToken: ${{ secrets.BOTTOKEN }}
-          chatId: ${{ secrets.CHATID }}
-          jobStatus: ${{ job.status }}
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
@@ -43,3 +37,10 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
             token: ${{ secrets.CODECOV_TOKEN }}
+      - name: notification
+        if: always()
+        uses: xinthink/action-telegram@v1.1
+        with:
+          botToken: ${{ secrets.BOTTOKEN }}
+          chatId: ${{ secrets.CHATID }}
+          jobStatus: ${{ job.status }}
