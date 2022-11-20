@@ -10,7 +10,6 @@ itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
 packaging==20.8
-pkg-resources==0.0.0
 pluggy==0.13.1
 py==1.10.0
 pyparsing==2.4.7

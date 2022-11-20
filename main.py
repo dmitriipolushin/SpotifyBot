@@ -2,7 +2,6 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
 import json
-from TOKEN import *
 from bot import bot
 import telebot
 import flask
@@ -12,6 +11,12 @@ import os
 
 app = flask.Flask(__name__)
 
+TOKEN = os.getenv('TOKEN')
+URL = os.getenv('URL')
+WEBHOOK_URL_PATH = '/updates/'
+WEBHOOK_URL = 'https://api.telegram.org/bot%s/setWebhook?url=%s' % (TOKEN, URL+WEBHOOK_URL_PATH)
+CLIENT_ID = os.getenv('CLIENT_ID')
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
 @app.route(WEBHOOK_URL_PATH, methods=['POST'])
 def webhook():
@@ -34,9 +39,9 @@ def set_webhook():
     else: 
         return "webhook setup failed" 
 
-# @app.route('/') 
-# def index(): 
-#     return '<h1>Hello</h1>'
+@app.route('/') 
+def index(): 
+    return '<h1>Hello there</h1>'
 
 
 def get_information(item):
