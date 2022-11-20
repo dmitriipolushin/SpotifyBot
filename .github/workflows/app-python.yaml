@@ -17,6 +17,13 @@ jobs:
         python-version: ["3.9"]
 
     steps:
+      - name: notification
+        uses: xinthink/action-telegram@v1.1
+        with:
+          botToken: ${{ secrets.BOTTOKEN }}
+          chatId: ${{ secrets.CHATID }}
+          jobStatus: ${{ job.status }}
+          skipSuccess: false
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
@@ -31,7 +38,7 @@ jobs:
           flake8
       - name: Coverage
         run: |
-          coverage run -m pytest tests.py
+          coverage run -m pytest --cov-fail-under=80 tests.py
       - uses: devmasx/coverage-check-action@v1.2.0
         with:
           type: simplecov
@@ -42,10 +49,3 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
             token: ${{ secrets.CODECOV_TOKEN }}
-      - name: notification
-        uses: xinthink/action-telegram@v1.1
-        with:
-          botToken: ${{ secrets.BOTTOKEN }}
-          chatId: ${{ secrets.CHATID }}
-          jobStatus: ${{ job.status }}
-          skipSuccess: false
