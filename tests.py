@@ -13,5 +13,5 @@ def test_get_iq_articles_error():
     try:
         get_iq_articles('test')
         assert False
-    except Exception:
+    except IndexError:
         assert True
