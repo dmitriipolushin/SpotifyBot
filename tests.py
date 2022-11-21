@@ -8,8 +8,9 @@ def test_get_information_type():
     item = json.load(f)
     assert isinstance(get_information(item), dict)
 
+
 def test_get_iq_articles_error():
     try:
         get_iq_articles('test')
-    except:
+    except Exception:
         assert True
