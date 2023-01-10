@@ -1,9 +1,10 @@
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
 from bot import bot
 import telebot
 import flask
 import os
+from controllers.spotify_controller import Spotify_controller
+import requests
+import json
 
 
 app = flask.Flask(__name__)
@@ -17,6 +18,8 @@ WEBHOOK_URL = 'https://api.telegram.org/bot%s/setWebhook?url=%s' % (
     )
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+AMPLITUDE_API_KEY = os.getenv('AMPLITUDE_API')
+sp = Spotify_controller(CLIENT_ID, CLIENT_SECRET)
 
 
 @app.route(WEBHOOK_URL_PATH, methods=['POST'])
@@ -35,7 +38,6 @@ def set_webhook():
     bot.remove_webhook()
     s = bot.set_webhook(WEBHOOK_URL)
     if s:
-        print(s)
         return "webhook setup ok"
     else:
         return "webhook setup failed"
@@ -44,33 +46,6 @@ def set_webhook():
 @app.route('/')
 def index():
     return '<h1>Hello there</h1>'
-
-
-def get_information(item):
-    info = {}
-    album = item['album']
-    info['album_url'] = album['external_urls']['spotify']
-    info['album_img'] = album['images'][2]['url']
-    info['artist'] = {
-        'name': album['artists'][0]['name'],
-        'link': album['artists'][0]['external_urls']['spotify'],
-    }
-    info['to_listen'] = item['external_urls']['spotify']
-    info['id'] = item['id']
-    info['name'] = sp.track(info['id'])['name']
-    print(type(info))
-    return info
-
-
-cid = CLIENT_ID
-secret = CLIENT_SECRET
-
-
-client_credentials_manager = SpotifyClientCredentials(
-    client_id=cid,
-    client_secret=secret
-    )
-sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -91,55 +66,25 @@ You can search both by track and by artist '''
 
 @bot.inline_handler(func=lambda query: len(query.query) > 0)
 def query_text(inline_query):
+    amp_event = {
+        "user_id": inline_query.from_user.id,  # unique user identifier
+        "event_type": "inline_search_event",  # the name of event
+        "user_properties": {
+            "language_code": inline_query.from_user.language_code
+        },
+        "event_properties": {
+            "query": inline_query.query
+        }
+    }
+    AMPLITUDE_ENDPOINT = "https://api.amplitude.com/2/httpapi"
+    _ = requests.post(AMPLITUDE_ENDPOINT, data=json.dumps(
+        {
+            'api_key': AMPLITUDE_API_KEY,
+            'events': [amp_event],
+            }
+        )
+                        )
     bot.answer_inline_query(
         inline_query.id,
-        get_iq_articles(inline_query.query)
+        sp.get_iq_articles(inline_query.query)
     )
-
-
-def get_iq_articles(query):
-    try:
-
-        # type_of_search, req = query.split(' ')[0], query.split(' ')[1:]
-
-        results = sp.search(q=query, type=['track', 'artist'], limit=10)
-
-        info = []
-        for item in results['tracks']['items']:
-            info.append(get_information(item))
-
-        result = []
-        cnt = 0
-        desc_msg = 'Tap to get link to track'
-        # [inline URL](http://www.example.com/)
-        out_msg = '''[Listen track on Spotify]({})
-        Name of the track: *{}*
-        Artist: *{}*
-        [Link to the artist]({})
-        [Link to the album]({})'''
-        for item in info:
-            title = item['artist']['name'] + ' - ' + item['name']
-            result.append(
-                telebot.types.InlineQueryResultArticle(
-                    id=str(cnt),
-                    title=title,
-                    description=desc_msg,
-                    input_message_content=telebot.types.InputTextMessageContent
-                    (
-                        out_msg.format(
-                            item['to_listen'],
-                            item['name'],
-                            item['artist']['name'],
-                            item['artist']['link'],
-                            item['album_url']
-                            ),
-                        parse_mode='Markdown',
-                    ),
-                    thumb_url=item['album_img']
-                    )
-                )
-            cnt += 1
-        return result
-
-    except IndexError as e:
-        return e
