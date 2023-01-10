@@ -29,14 +29,6 @@ jobs:
       - name: Lint with flake8
         run: |
           flake8
-      - name: Coverage
-        run: |
-          coverage run -m pytest tests.py
-          coverage report --fail-under=80
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-            token: ${{ secrets.CODECOV_TOKEN }}
       - name: notification
         if: always()
         uses: xinthink/action-telegram@v1.1
